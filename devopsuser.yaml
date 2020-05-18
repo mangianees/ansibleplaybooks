@@ -1,0 +1,30 @@
+---
+- name: Create Ansible User
+  hosts: all
+  tasks:
+  
+    - name: creating Devops User
+      user: 
+        name: devops
+        groups: "{{ admin_group }}"
+        create_home: true
+        comment: "Devops user for management"
+        expires: -1
+        password: "$6$AZ$ic5te6zGHAbzikdmvqlN5oX52CcipkdilwzFlrpgqlfLf8WyV352TFQ3.Yut6.c8w2Jhlgo422ISUOsmJUhuR0"
+
+    - name: Instll SSH Keys
+      authorized_key:
+        user: devops
+        state: present
+        manage_dir: true
+        key: "{{ lookup('file', '/home/anansible/.ssh/id_rsa.pub') }}"
+
+    - name: set Devops Sudo Access
+      copy:
+        dest: /etc/sudoers.d/devops
+        content: "devops ALL=(ALL) NOPASSWD: ALL"
+        validate: /usr/sbin/visudo -cf %s
+       
+
+
+...
