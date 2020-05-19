@@ -1,5 +1,5 @@
 ---
-- name: create new users
+- name: delete  users
   hosts: all
   gather_facts: false
   tasks:
