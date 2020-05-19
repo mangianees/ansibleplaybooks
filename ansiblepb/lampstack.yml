@@ -1,0 +1,64 @@
+---
+- name: lampstack
+  hosts: 192.168.1.180
+  become: yes
+  vars:
+          my_root_password: "pass1"
+  tasks:
+          - name: " update Packages at centos "
+            dnf: name=* state=latest
+
+          - name: "Install APACHE Server"
+            dnf: name=httpd state=absent
+
+          - name: "Start Services "
+            systemd: name=httpd state=started enabled=yes
+          
+          - name: update "F I R E W A L L "
+            firewalld:
+                   permanent=yes
+                   zone=public
+                   service=http
+                   service=https
+                   state=enabled
+                   
+          - name: "R E S T A R T Firewall "
+            systemd: name=firewalld state=restarted enabled=yes
+
+          - name: " Install M A R I A DB "
+            yum:
+                    name:
+                            - mariadb-server
+                            - python3-PyMySQL
+                    state: absent
+
+
+          - name: " Start M A R I A DB Service "
+            service:
+                    name: mariadb
+                    state: started
+                    enabled: yes
+
+          - name: " Set R O O T     P A SS W O R D "
+            mysql_user:
+                    check_implicit_admin: true
+                    login_user: root
+                    login_password: " {{ my_root_password }} "
+                    user: root
+                    password: " {{ my_root_password }} "
+                    host: localhost
+
+
+
+          - name: " D E L E T E       R O O T "
+            mysql_user:
+                    check_implicit_admin: true
+                    login_user: root
+                    login_password: " {{ my_root_password }} "
+                    user: root
+                    password: " {{ my_root_password }} "
+                    host: " {{ ansible_fqdn }} "
+                    state: absent
+
+
+        

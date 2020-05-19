@@ -1,0 +1,17 @@
+---
+- name: create new users
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: "* * * * * * D E L E T E  Users Task"
+      user:
+        name: "{{ item }}"
+        state: absent
+        remove: true
+      loop:
+        - waseem
+        - awais
+        - waqas
+        - younis
+
+...

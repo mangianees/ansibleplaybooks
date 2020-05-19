@@ -1,0 +1,19 @@
+---
+- name: create new users
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: create Users Task
+      user:
+        name: "{{ item }}"
+        state: present
+        password: "{{ default_user_password | password_hash('sha512','qqqq1') }}"
+        shell: /bin/bash
+        groups: "{{ admin_group }}"
+      loop:
+        - waseem
+        - awais
+        - waqas
+        - younis
+
+...
