@@ -5,11 +5,11 @@
   
     - name: creating Devops User
       user: 
-        name: devops
-        groups: "{{ admin_group }}"
-        create_home: true
+        name: devops   # user module to create a user with name devops
+        groups: "{{ admin_group }}" # user added to group (admin_group is variable )
+        create_home: true # create a folder at home folder with name devops
         comment: "Devops user for management"
-        expires: -1
+        expires: -1 # user expire value
         password: "$6$AZ$ic5te6zGHAbzikdmvqlN5oX52CcipkdilwzFlrpgqlfLf8WyV352TFQ3.Yut6.c8w2Jhlgo422ISUOsmJUhuR0"
 
     - name: Instll SSH Keys
