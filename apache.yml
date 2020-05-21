@@ -1,0 +1,54 @@
+---
+- name: Deployee A P A C H E Server
+  hosts: centos
+  gather_facts: true
+  tasks:
+    - name: Install Apache Package
+      yum:
+        name:
+          - httpd
+          - httpd-manual
+          - firewalld
+        state: latest
+
+
+
+    - name: Dont Listen on all interfaces
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf    # File of path to change
+        regexp: '^Listen 192.168.80.129:8090'  # This line is just as pattern matching
+        state: absent # to delete write absent here
+
+    - name: Listen Single IPV4 Interface
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf # File to change
+        insertafter: '^Listen' # pattern to match
+        line: 'Listen {{ ansible_default_ipv4.address }}:8090' # line to write in file
+
+    - name: Default page
+      copy:
+        dest: /var/www/html/index.html  # file copy module with destination to copy file
+        content: |
+          Welcome to Anees Mangi Ansible  # written content on file
+          This was developed by Anees Mangi
+
+    - name: start service
+      service:
+        name: "{{ item }}" # service module with loop variable to start more than one service
+        state:  started
+        enabled: true
+
+      loop:
+        - httpd   # service mentioned in loop
+        - firewalld
+
+    - name: Open Firewall
+      firewalld:
+        service: http
+        state: enabled
+        permanent: true
+        immediate: true
+  
+
+
+...
