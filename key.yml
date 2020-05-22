@@ -1,0 +1,12 @@
+---
+- name: Add key to hosts
+  hosts: all
+  become: true
+  tasks:
+    - name: Install keys
+      authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+
+...

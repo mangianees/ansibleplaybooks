@@ -1,0 +1,37 @@
+---
+- name: Set Hostanme 01
+  hosts: 192.168.1.180
+  gather_facts: false
+  tasks:
+    - name: host centos
+      hostname:
+        name: ancentos8-01.andomain.com
+
+- name: Set Hostanme at U B A N T U
+  hosts: 192.168.1.172
+  gather_facts: false
+  tasks:
+    - name: host ubuntu
+      hostname:
+        name: anubuntu-01.andomain.com
+      notify: removing_hosts
+  handlers:
+    - name: removing_hosts
+      file:
+        path: /etc/hosts
+        state: absent
+
+
+- name: Manage Hosts Files
+  hosts: all
+  gather_facts: true
+  tasks:
+
+  - name: Deploy Hosts Template
+    template:
+      src: hosts.jj
+      dest: /etc/hosts
+
+  
+  
+...
