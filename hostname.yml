@@ -5,7 +5,7 @@
   tasks:
     - name: host centos
       hostname:
-        name: ancentos8-01.andomain.com
+        name: centos-8.andomain.com
 
 - name: Set Hostanme at U B A N T U
   hosts: 192.168.1.172
@@ -13,7 +13,7 @@
   tasks:
     - name: host ubuntu
       hostname:
-        name: anubuntu-01.andomain.com
+        name: ubuntu.andomain.com
       notify: removing_hosts
   handlers:
     - name: removing_hosts
