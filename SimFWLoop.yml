@@ -1,0 +1,15 @@
+---
+- name: F I R E W A L L Management
+  hosts: 192.168.1.180
+  tasks:
+    - name: Open H T T P
+      firewalld: 
+        service: "{{ item }}"
+        state: enabled
+        immediate: true
+        permanent: true
+      loop:
+        - http
+        - https
+
+...

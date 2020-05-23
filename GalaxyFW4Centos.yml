@@ -1,0 +1,12 @@
+---
+- name: F I R E W A L L Management
+  hosts: 192.168.1.180
+  roles:
+    - name: firewall-r
+      firewall_services:
+        - http
+        - https
+      service_state: enabled
+      
+
+...
