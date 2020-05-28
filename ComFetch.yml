@@ -1,0 +1,14 @@
+---
+- name: Fetch usage
+  hosts: 192.168.1.180
+  gather_facts: true
+  become: true
+  vars: 
+    backup: true
+  tasks:
+    - name: Backup a file
+      fetch:
+        src: /home/anansible/an180.txt
+        dest: ./
+      when: backup == true
+...
